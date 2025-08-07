@@ -10,6 +10,7 @@
 
 WordList::WordList(std::istream& stream){
     std::string word;
+    std::set<std::string> seen;
     while (stream >> word) {
         bool valid = true;
         for (char c : word) {
@@ -18,8 +19,9 @@ WordList::WordList(std::istream& stream){
                 break;
             }
         }
-        if (valid) {
+        if (valid && seen.find(word) == seen.end()) {
             mWords.push_back(word);
+            seen.insert(word);
         }
     }
 }
