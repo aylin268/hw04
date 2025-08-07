@@ -31,7 +31,6 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
         if (word.length() != points.size()) continue;
 
         float scoreSum = 0.0f;
-
         for (size_t i = 0; i < points.size(); ++i) {
             Point letterPos = QWERTY[word[i] - 'a'];
             float dx = points[i].x - letterPos.x;
@@ -51,21 +50,10 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
         }
     }
 
-
-    std::vector<Heap::Entry> entries;
-    while (heap.count() > 0) {
-        entries.push_back(heap.top());
-        heap.pop();
-    }
-
+    auto& entries = heap.entries(); // Assuming you have a public or friend accessor
     std::sort(entries.begin(), entries.end(), [](const Heap::Entry& a, const Heap::Entry& b) {
-        return a.score > b.score;
+        return a.score < b.score;
     });
 
-    Heap sortedHeap(maxcount);
-    for (const auto& e : entries) {
-        sortedHeap.push(e.value, e.score);
-    }
-
-    return sortedHeap;
+    return heap;
 }
