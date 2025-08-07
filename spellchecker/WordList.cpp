@@ -64,7 +64,7 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
 
     Heap sortedHeap(maxcount);
     for (const auto& e : entries) {
-        sortedHeap.push(e.word, e.score);
+        sortedHeap.push(e.value, e.score);
     }
 
     return sortedHeap;
