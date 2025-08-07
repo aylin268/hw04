@@ -4,26 +4,33 @@
 #include <stdexcept>
 #include <cmath>
 #include <algorithm>
-#include <set>
 
 
 
 WordList::WordList(std::istream& stream){
     std::string word;
-    std::set<std::string> seen;
     while (stream >> word) {
-        bool valid = true;
-        for (char c : word) {
-            if (!std::islower(c)) {
-                valid = false;
-                break;
-            }
-        }
-        if (valid && seen.find(word) == seen.end()) {
-            mWords.push_back(word);
-            seen.insert(word);
+    bool valid = true;
+    for (char c : word) {
+        if (!std::islower(c)) {
+            valid = false;
+            break;
         }
     }
+    if (!valid) continue;
+
+    bool duplicate = false;
+    for (const std::string& w : mWords) {
+        if (w == word) {
+            duplicate = true;
+            break;
+        }
+    }
+    if (!duplicate) {
+        mWords.push_back(word);
+    }
+}
+
 }
 
 Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float cutoff)const{
