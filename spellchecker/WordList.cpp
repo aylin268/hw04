@@ -3,6 +3,7 @@
 #include <cctype>
 #include <stdexcept>
 #include <cmath>
+#include <algorithm>
 
 
 
