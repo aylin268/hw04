@@ -51,21 +51,21 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
         }
     }
 
-   
+
     std::vector<Heap::Entry> entries;
     while (heap.count() > 0) {
-        entries.push_back(heap.pop());
+        entries.push_back(heap.top());
+        heap.pop();
     }
 
     std::sort(entries.begin(), entries.end(), [](const Heap::Entry& a, const Heap::Entry& b) {
         return a.score > b.score;
     });
 
-    for (const auto& entry : entries) {
-        heap.push(entry.value, entry.score);
+    Heap sortedHeap(maxcount);
+    for (const auto& e : entries) {
+        sortedHeap.push(e.word, e.score);
     }
 
-    return heap;
-
+    return sortedHeap;
 }
-
